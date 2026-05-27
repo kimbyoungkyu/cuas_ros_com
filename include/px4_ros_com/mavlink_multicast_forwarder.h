@@ -13,7 +13,7 @@
 #include <vector>
 
 
-class MavlinkMulticastForwarder
+class mavlink_multicast_forwarder
 {
 public:
   struct Config
@@ -32,12 +32,11 @@ public:
   };
 
 public:
-  MavlinkMulticastForwarder()
-  : buffer_(MaxPacketSize)
+  mavlink_multicast_forwarder() : buffer_(MaxPacketSize)
   {
   }
 
-  ~MavlinkMulticastForwarder()
+  ~mavlink_multicast_forwarder()
   {
     Stop();
   }
@@ -59,7 +58,7 @@ public:
 
     worker_ =
       std::thread(
-        &MavlinkMulticastForwarder::Run,
+        &mavlink_multicast_forwarder::Run,
         this);
 
     return true;
@@ -190,15 +189,9 @@ private:
 
     mcast_addr.sin_family = AF_INET;
 
-    mcast_addr.sin_port =
-      htons(
-        static_cast<uint16_t>(
-          config_.multicast_port));
+    mcast_addr.sin_port = htons(static_cast<uint16_t>(config_.multicast_port));
 
-    if (::inet_pton(
-          AF_INET,
-          config_.multicast_group.c_str(),
-          &mcast_addr.sin_addr) != 1)
+    if (::inet_pton(AF_INET,config_.multicast_group.c_str(),&mcast_addr.sin_addr) != 1)
     {
       running_ = false;
       return;
@@ -206,39 +199,22 @@ private:
 
     while (running_)
     {
-      ssize_t n =
-        ::recvfrom(
-          listen_fd_,
-          buffer_.data(),
-          buffer_.size(),
-          0,
-          nullptr,
-          nullptr);
-
+      ssize_t n = ::recvfrom(listen_fd_,buffer_.data(),buffer_.size(), 0,nullptr,nullptr);
       if (n <= 0) {
         continue;
       }
 
-      ::sendto(
-        send_fd_,
-        buffer_.data(),
-        static_cast<size_t>(n),
-        0,
-        reinterpret_cast<sockaddr*>(&mcast_addr),
+      ::sendto(send_fd_,buffer_.data(),static_cast<size_t>(n), 0,reinterpret_cast<sockaddr*>(&mcast_addr),
         sizeof(mcast_addr));
     }
   }
 
 private:
   Config config_;
-
   int listen_fd_ = -1;
   int send_fd_ = -1;
-
   std::atomic_bool running_{false};
-
   std::thread worker_;
-
   std::vector<uint8_t> buffer_;
 };
 

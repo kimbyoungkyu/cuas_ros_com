@@ -42,11 +42,9 @@
 #include <px4_msgs/msg/trajectory_setpoint.hpp>
 #include <px4_msgs/msg/vehicle_command.hpp>
 #include <px4_msgs/msg/vehicle_control_mode.hpp>
-//#include <cuas_msgs/msg/c2_command.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <stdint.h>
-#include "mavlink_multicast_forwarder.h"
-
+#include "px4_ros_com/mavlink_multicast_forwarder.h"
 #include <chrono>
 #include <iostream>
 
@@ -60,7 +58,8 @@ public:
 	OffboardControl() : Node("offboard_control")
 	{
 
-		mavlink_forwarder_.Start(MavlinkMulticastForwarder::Config{});
+		mavlink_forwarder_.Start(mavlink_multicast_forwarder::Config{});
+
 		offboard_control_mode_publisher_ = this->create_publisher<OffboardControlMode>("/fmu/in/offboard_control_mode", 10);
 		trajectory_setpoint_publisher_ = this->create_publisher<TrajectorySetpoint>("/fmu/in/trajectory_setpoint", 10);
 		vehicle_command_publisher_ = this->create_publisher<VehicleCommand>("/fmu/in/vehicle_command", 10);
@@ -68,15 +67,12 @@ public:
 		offboard_setpoint_counter_ = 0;
 
 		auto timer_callback = [this]() -> void {
-
 			if (offboard_setpoint_counter_ == 10) {
 				// Change to Offboard mode after 10 setpoints
 				this->publish_vehicle_command(VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 6);
-
 				// Arm the vehicle
 				this->arm();
 			}
-
 			// offboard_control_mode needs to be paired with trajectory_setpoint
 			publish_offboard_control_mode();
 			publish_trajectory_setpoint();
@@ -93,7 +89,7 @@ public:
 	void disarm();
 
 private:
-	MavlinkMulticastForwarder mavlink_forwarder_;
+	mavlink_multicast_forwarder mavlink_forwarder_;
 	rclcpp::TimerBase::SharedPtr timer_;
 
 	rclcpp::Publisher<OffboardControlMode>::SharedPtr offboard_control_mode_publisher_;
