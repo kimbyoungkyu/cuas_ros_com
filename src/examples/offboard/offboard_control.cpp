@@ -45,6 +45,7 @@
 //#include <cuas_msgs/msg/c2_command.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <stdint.h>
+#include "mavlink_multicast_forwarder.h"
 
 #include <chrono>
 #include <iostream>
@@ -59,6 +60,7 @@ public:
 	OffboardControl() : Node("offboard_control")
 	{
 
+		mavlink_forwarder_.Start(MavlinkMulticastForwarder::Config{});
 		offboard_control_mode_publisher_ = this->create_publisher<OffboardControlMode>("/fmu/in/offboard_control_mode", 10);
 		trajectory_setpoint_publisher_ = this->create_publisher<TrajectorySetpoint>("/fmu/in/trajectory_setpoint", 10);
 		vehicle_command_publisher_ = this->create_publisher<VehicleCommand>("/fmu/in/vehicle_command", 10);
@@ -91,6 +93,7 @@ public:
 	void disarm();
 
 private:
+	MavlinkMulticastForwarder mavlink_forwarder_;
 	rclcpp::TimerBase::SharedPtr timer_;
 
 	rclcpp::Publisher<OffboardControlMode>::SharedPtr offboard_control_mode_publisher_;
