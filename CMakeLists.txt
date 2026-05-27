@@ -22,6 +22,7 @@ find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(px4_msgs REQUIRED)
+find_package(cuas_msgs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rclpy REQUIRED)
@@ -43,27 +44,27 @@ target_include_directories(frame_transforms PUBLIC
 
 # examples/listeners/sensor_combined_listener
 add_executable(sensor_combined_listener src/examples/listeners/sensor_combined_listener.cpp)
-ament_target_dependencies(sensor_combined_listener rclcpp px4_msgs)
+ament_target_dependencies(sensor_combined_listener rclcpp px4_msgs cuas_msgs)
 install(TARGETS sensor_combined_listener DESTINATION lib/${PROJECT_NAME})
 
 # examples/listeners/vehicle_gps_position_listener
 add_executable(vehicle_gps_position_listener src/examples/listeners/vehicle_gps_position_listener.cpp)
-ament_target_dependencies(vehicle_gps_position_listener rclcpp px4_msgs)
+ament_target_dependencies(vehicle_gps_position_listener rclcpp px4_msgs cuas_msgs)
 install(TARGETS vehicle_gps_position_listener DESTINATION lib/${PROJECT_NAME})
 
 # examples/advertisers/debug_vect_advertiser
 add_executable(debug_vect_advertiser src/examples/advertisers/debug_vect_advertiser.cpp)
-ament_target_dependencies(debug_vect_advertiser rclcpp px4_msgs)
+ament_target_dependencies(debug_vect_advertiser rclcpp px4_msgs cuas_msgs)
 install(TARGETS debug_vect_advertiser DESTINATION lib/${PROJECT_NAME})
 
 # examples/offboard/offboard_control
 add_executable(offboard_control src/examples/offboard/offboard_control.cpp)
-ament_target_dependencies(offboard_control rclcpp px4_msgs)
+ament_target_dependencies(offboard_control rclcpp px4_msgs cuas_msgs)
 install(TARGETS offboard_control DESTINATION lib/${PROJECT_NAME})
 
 # examples/offboard/offboard_control_srv
 add_executable(offboard_control_srv src/examples/offboard/offboard_control_srv.cpp)
-ament_target_dependencies(offboard_control_srv rclcpp px4_msgs)
+ament_target_dependencies(offboard_control_srv rclcpp px4_msgs cuas_msgs)
 install(TARGETS offboard_control_srv DESTINATION lib/${PROJECT_NAME})
 
 

@@ -43,6 +43,7 @@
 #include <px4_msgs/msg/trajectory_setpoint.hpp>
 #include <px4_msgs/msg/vehicle_control_mode.hpp>
 #include <px4_msgs/srv/vehicle_command.hpp>
+//#include <cuas_msgs/msg/c2_command.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <stdint.h>
 
