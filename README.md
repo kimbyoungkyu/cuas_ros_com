@@ -19,3 +19,18 @@ Use the [Issues](https://github.com/PX4/px4_ros_com/issues) section to create a 
 ## Questions and troubleshooting
 
 Reach the PX4 development team on the [PX4 Discord Server](https://discord.gg/dronecode).
+
+
+## License & Attribution
+
+This repository, `cuas_ros_com`, is an extension and modifications based on the official open-source [px4_ros_com](https://github.com/PX4/px4_ros_com) repository.
+
+* **Original Software:** `px4_ros_com` (Copyright (c) 2020-2026, PX4 Development Team. All rights reserved.)
+* **Original License:** BSD 3-Clause License
+* **Modifications:** Custom CUAS messages (`cuas_msgs`) integration and C2 (Command and Control) system communication extensions are added by Kim Byoung-kyu.
+
+This project inherits the **BSD 3-Clause License**. You may reuse, modify, and distribute this software under the terms and conditions of the license. For the full license text, please refer to the `LICENSE` file in this repository.
+
+---
+
+본 저장소는 오픈소스 프로젝트인 `px4_ros_com`을 기반으로 안티드론(Counter-UAS) 및 C2 지휘통제 시스템 연동 기능을 확장하기 위해 포크 및 수정된 프로젝트입니다. 원저작자인 PX4 개발팀의 BSD 3-Clause 라이선스 규정을 준수하며, 추가된 커스텀 확장 기능 역시 동일한 라이선스 하에 관리됩니다.
