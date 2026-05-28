@@ -45,6 +45,14 @@
 #include <rclcpp/rclcpp.hpp>
 #include <stdint.h>
 #include "px4_ros_com/mavlink_multicast_forwarder.h"
+#include "cuas_msgs/msg/c2_command.hpp"
+#include "cuas_msgs/msg/engagement_result.hpp"
+#include "cuas_msgs/msg/fault_report.hpp"
+#include "cuas_msgs/msg/intercept_mission.hpp"
+#include "cuas_msgs/msg/interceptor_status.hpp"
+#include "cuas_msgs/msg/intercept_progress.hpp"
+#include "cuas_msgs/msg/mission_ack.hpp"
+#include "cuas_msgs/msg/target_track.hpp"
 #include <chrono>
 #include <iostream>
 

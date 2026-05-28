@@ -19,16 +19,10 @@ public:
   struct Config
   {
     int listen_port = 15000;
-
-    std::string multicast_group =
-      "239.10.0.1";
-
+    std::string multicast_group = "239.10.0.1";
     int multicast_port = 5000;
-
     int ttl = 1;
-
-    int socket_buffer_size =
-      16 * 1024 * 1024;
+    int socket_buffer_size =  16 * 1024 * 1024;
   };
 
 public:
@@ -55,12 +49,7 @@ public:
     }
 
     running_ = true;
-
-    worker_ =
-      std::thread(
-        &mavlink_multicast_forwarder::Run,
-        this);
-
+    worker_ = std::thread(&mavlink_multicast_forwarder::Run,this);
     return true;
   }
 
@@ -69,11 +58,8 @@ public:
     if (!running_) {
       return;
     }
-
     running_ = false;
-
     CloseSockets();
-
     if (worker_.joinable()) {
       worker_.join();
     }
@@ -98,72 +84,36 @@ private:
     }
 
     int reuse = 1;
-
-    ::setsockopt(
-      listen_fd_,
-      SOL_SOCKET,
-      SO_REUSEADDR,
-      &reuse,
-      sizeof(reuse));
-
-    ::setsockopt(
-      listen_fd_,
-      SOL_SOCKET,
-      SO_RCVBUF,
-      &config_.socket_buffer_size,
-      sizeof(config_.socket_buffer_size));
+    ::setsockopt(listen_fd_,SOL_SOCKET,SO_REUSEADDR,&reuse,sizeof(reuse));
+    ::setsockopt(listen_fd_,SOL_SOCKET,SO_RCVBUF,&config_.socket_buffer_size,sizeof(config_.socket_buffer_size));
 
     sockaddr_in listen_addr{};
 
     listen_addr.sin_family = AF_INET;
     listen_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-    listen_addr.sin_port =
-      htons(
-        static_cast<uint16_t>(
-          config_.listen_port));
+    listen_addr.sin_port = htons(static_cast<uint16_t>(config_.listen_port));
 
-    if (::bind(
-          listen_fd_,
-          reinterpret_cast<sockaddr*>(&listen_addr),
-          sizeof(listen_addr)) < 0)
+    if (::bind(listen_fd_,reinterpret_cast<sockaddr*>(&listen_addr), sizeof(listen_addr)) < 0)
     {
       return false;
     }
 
-    send_fd_ =
-      ::socket(AF_INET, SOCK_DGRAM, 0);
+    send_fd_ = ::socket(AF_INET, SOCK_DGRAM, 0);
 
     if (send_fd_ < 0) {
       return false;
     }
 
-    ::setsockopt(
-      send_fd_,
-      SOL_SOCKET,
-      SO_SNDBUF,
-      &config_.socket_buffer_size,
-      sizeof(config_.socket_buffer_size));
+    ::setsockopt(send_fd_,SOL_SOCKET,SO_SNDBUF, &config_.socket_buffer_size,sizeof(config_.socket_buffer_size));
 
-    unsigned char ttl =
-      static_cast<unsigned char>(
-        config_.ttl);
+    unsigned char ttl = static_cast<unsigned char>(config_.ttl);
 
-    ::setsockopt(
-      send_fd_,
-      IPPROTO_IP,
-      IP_MULTICAST_TTL,
-      &ttl,
-      sizeof(ttl));
+    ::setsockopt(send_fd_,IPPROTO_IP,IP_MULTICAST_TTL,&ttl,sizeof(ttl));
 
     unsigned char loopback = 0;
 
-    ::setsockopt(
-      send_fd_,
-      IPPROTO_IP,
-      IP_MULTICAST_LOOP,
-      &loopback,
-      sizeof(loopback));
+    ::setsockopt(send_fd_,IPPROTO_IP,IP_MULTICAST_LOOP,&loopback,sizeof(loopback));
 
     return true;
   }

@@ -47,6 +47,13 @@ add_executable(sensor_combined_listener src/examples/listeners/sensor_combined_l
 ament_target_dependencies(sensor_combined_listener rclcpp px4_msgs cuas_msgs)
 install(TARGETS sensor_combined_listener DESTINATION lib/${PROJECT_NAME})
 
+
+# examples/listeners/cuas_msgs_listener
+add_executable(cuas_msgs_listener src/examples/listeners/cuas_msgs_listener.cpp)
+ament_target_dependencies(cuas_msgs_listener rclcpp px4_msgs cuas_msgs)
+install(TARGETS cuas_msgs_listener DESTINATION lib/${PROJECT_NAME})
+
+
 # examples/listeners/vehicle_gps_position_listener
 add_executable(vehicle_gps_position_listener src/examples/listeners/vehicle_gps_position_listener.cpp)
 ament_target_dependencies(vehicle_gps_position_listener rclcpp px4_msgs cuas_msgs)

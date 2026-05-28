@@ -33,7 +33,7 @@
 ################################################################################
 
 """
-Example to launch a sensor_combined listener node.
+Example to launch a cuas_msgs_listener node.
 """
 
 from launch import LaunchDescription
@@ -41,17 +41,18 @@ from launch_ros.actions import Node
 from launch.actions import ExecuteProcess
 
 def generate_launch_description():
-
+    """
     micro_ros_agent = ExecuteProcess(
         cmd=[[
             'micro-ros-agent udp4 --port 8888 -v '
         ]],
         shell=True
     )
+    """
 
     cuas_msgs_listener_node = Node(
         package='px4_ros_com',
-        executable='cuas_msg_listener',
+        executable='cuas_msgs_listener',
         output='screen',
         shell=True,
     )
