@@ -53,6 +53,10 @@ add_executable(cuas_msgs_listener src/examples/listeners/cuas_msgs_listener.cpp)
 ament_target_dependencies(cuas_msgs_listener rclcpp px4_msgs cuas_msgs)
 install(TARGETS cuas_msgs_listener DESTINATION lib/${PROJECT_NAME})
 
+# examples/publisher/cuas_msgs_publisher
+add_executable(cuas_msgs_publisher src/examples/publisher/cuas_msgs_publisher.cpp)
+ament_target_dependencies(cuas_msgs_publisher rclcpp px4_msgs cuas_msgs)
+install(TARGETS cuas_msgs_publisher DESTINATION lib/${PROJECT_NAME})
 
 # examples/listeners/vehicle_gps_position_listener
 add_executable(vehicle_gps_position_listener src/examples/listeners/vehicle_gps_position_listener.cpp)
