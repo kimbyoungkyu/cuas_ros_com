@@ -21,7 +21,6 @@ public:
 	explicit CUASPublisher() : Node("cuas_msg_publisher")
 	{
 		// Publishers
-
 		//요격체 -> C2
 		interceptor_status_pub_ = this->create_publisher<cuas_msgs::msg::InterceptorStatus>("/cuas/interceptor/status", 10);
 		intercept_progress_pub_ = this->create_publisher<cuas_msgs::msg::InterceptProgress>("/cuas/interceptor/progress", 10);
@@ -29,14 +28,6 @@ public:
 		engagement_result_pub_ = this->create_publisher<cuas_msgs::msg::EngagementResult>("/cuas/interceptor/result", 10);
 		fault_report_pub_ = this->create_publisher<cuas_msgs::msg::FaultReport>("/cuas/interceptor/fault", 10);
 
-
-
-		
-		
-		//intercept_mission_pub_ = this->create_publisher<cuas_msgs::msg::InterceptMission>("/cuas/intercept/mission", 10);
-		
-		
-		
 		// Timer
 		timer_ = this->create_wall_timer(1000ms,std::bind(&CUASPublisher::timerCallback, this));
 		RCLCPP_INFO(this->get_logger(), "CUAS Publisher initialized");
@@ -91,20 +82,8 @@ private:
 	/**
 	 * @brief Publish InterceptMission
 	 */
+	 
 	
-	/*
-	 void publishInterceptMission()
-	{
-		cuas_msgs::msg::InterceptMission msg;
-
-		msg.mission_id = "MISSION_001";
-		msg.target_id = "TARGET_001";
-
-		intercept_mission_pub_->publish(msg);
-
-		RCLCPP_INFO(this->get_logger(),"Published InterceptMission");
-	}
-*/
 	/**
 	 * @brief Publish InterceptorStatus
 	 */
@@ -112,11 +91,10 @@ private:
 	{
 		cuas_msgs::msg::InterceptorStatus msg;
 
+		msg.stamp = this->get_clock()->now();
 		msg.interceptor_id = "INTERCEPTOR_001";
-		//msg.status = "READY";
-
+		msg.vehicle_state = cuas_msgs::msg::InterceptorStatus::ACTIVE;
 		interceptor_status_pub_->publish(msg);
-
 		RCLCPP_INFO(this->get_logger(),"Published InterceptorStatus");
 	}
 
@@ -126,11 +104,7 @@ private:
 	void publishInterceptProgress()
 	{
 		cuas_msgs::msg::InterceptProgress msg;
-
-		//msg.progress = 75.0f;
-
 		intercept_progress_pub_->publish(msg);
-
 		RCLCPP_INFO(this->get_logger(),"Published InterceptProgress");
 	}
 
@@ -140,12 +114,9 @@ private:
 	void publishMissionAck()
 	{
 		cuas_msgs::msg::MissionAck msg;
-
 		msg.mission_id = "MISSION_001";
 		msg.accepted = true;
-
 		mission_ack_pub_->publish(msg);
-
 		RCLCPP_INFO(this->get_logger(),"Published MissionAck");
 	}
 
