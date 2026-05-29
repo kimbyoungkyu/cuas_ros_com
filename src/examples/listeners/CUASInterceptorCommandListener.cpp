@@ -36,7 +36,7 @@
  * C2 시스템에서 발행하는 명령, 임무, 표적 추적 메시지를
  * 수신하여 터미널 로그로 출력하는 테스트용 ROS2 노드이다.
  */
-class CUASListener : public rclcpp::Node
+class CUASInterceptorCommandListener : public rclcpp::Node
 {
 public:
 	/**
@@ -47,8 +47,8 @@ public:
 	 * - /cuas/c2/mission
 	 * - /cuas/c2/target_track
 	 */
-	explicit CUASListener()
-		: Node("cuas_listener")
+	explicit CUASInterceptorCommandListener()
+		: Node("CUASInterceptorCommandListener")
 	{
 		rmw_qos_profile_t qos_profile = rmw_qos_profile_sensor_data;
 
@@ -61,7 +61,7 @@ public:
 				"/cuas/c2/command",
 				qos,
 				std::bind(
-					&CUASListener::c2CommandCallback,
+					&CUASInterceptorCommandListener::c2CommandCallback,
 					this,
 					std::placeholders::_1));
 
@@ -70,7 +70,7 @@ public:
 				"/cuas/c2/mission",
 				qos,
 				std::bind(
-					&CUASListener::c2MissionCallback,
+					&CUASInterceptorCommandListener::c2MissionCallback,
 					this,
 					std::placeholders::_1));
 
@@ -79,7 +79,7 @@ public:
 				"/cuas/c2/target_track",
 				qos,
 				std::bind(
-					&CUASListener::targetTrackCallback,
+					&CUASInterceptorCommandListener::targetTrackCallback,
 					this,
 					std::placeholders::_1));
 
@@ -358,7 +358,7 @@ int main(int argc, char* argv[])
 	setvbuf(stdout, NULL, _IONBF, BUFSIZ);
 
 	rclcpp::init(argc, argv);
-	rclcpp::spin(std::make_shared<CUASListener>());
+	rclcpp::spin(std::make_shared<CUASInterceptorCommandListener>());
 	rclcpp::shutdown();
 
 	return 0;

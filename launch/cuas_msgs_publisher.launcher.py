@@ -50,14 +50,14 @@ def generate_launch_description():
     )
     """
 
-    cuas_msgs_publisher_node = Node(
+    CUASInterceptorReportPublisherNode = Node(
         package='px4_ros_com',
-        executable='cuas_msgs_publisher',
+        executable='CUASInterceptorReportPublisher',
         output='screen',
         shell=True,
     )
 
     return LaunchDescription([
         #micro_ros_agent,
-        cuas_msgs_publisher_node
+        CUASInterceptorReportPublisherNode
     ])

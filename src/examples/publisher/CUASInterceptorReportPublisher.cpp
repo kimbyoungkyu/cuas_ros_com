@@ -33,14 +33,14 @@ using namespace std::chrono_literals;
 /**
  * @brief 요격체 보고 메시지 Publisher 노드
  */
-class CUASPublisher : public rclcpp::Node
+class CUASInterceptorReportPublisher : public rclcpp::Node
 {
 public:
 	/**
 	 * @brief Publisher와 Timer를 초기화한다.
 	 */
-	explicit CUASPublisher()
-		: Node("cuas_msg_publisher")
+	explicit CUASInterceptorReportPublisher()
+		: Node("CUASInterceptorReportPublisher")
 	{
 		interceptor_status_pub_ =
 			this->create_publisher<cuas_msgs::msg::InterceptorStatus>(
@@ -70,7 +70,7 @@ public:
 		timer_ =
 			this->create_wall_timer(
 				1000ms,
-				std::bind(&CUASPublisher::timerCallback, this));
+				std::bind(&CUASInterceptorReportPublisher::timerCallback, this));
 
 		RCLCPP_INFO(
 			this->get_logger(),
@@ -280,7 +280,7 @@ int main(int argc, char* argv[])
 	setvbuf(stdout, NULL, _IONBF, BUFSIZ);
 
 	rclcpp::init(argc, argv);
-	rclcpp::spin(std::make_shared<CUASPublisher>());
+	rclcpp::spin(std::make_shared<CUASInterceptorReportPublisher>());
 	rclcpp::shutdown();
 
 	return 0;

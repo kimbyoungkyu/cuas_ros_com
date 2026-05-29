@@ -48,15 +48,15 @@ ament_target_dependencies(sensor_combined_listener rclcpp px4_msgs cuas_msgs)
 install(TARGETS sensor_combined_listener DESTINATION lib/${PROJECT_NAME})
 
 
-# examples/listeners/cuas_msgs_listener
-add_executable(cuas_msgs_listener src/examples/listeners/cuas_msgs_listener.cpp)
-ament_target_dependencies(cuas_msgs_listener rclcpp px4_msgs cuas_msgs)
-install(TARGETS cuas_msgs_listener DESTINATION lib/${PROJECT_NAME})
+# examples/listeners/CUASInterceptorCommandListener
+add_executable(CUASInterceptorCommandListener src/examples/listeners/CUASInterceptorCommandListener.cpp)
+ament_target_dependencies(CUASInterceptorCommandListener rclcpp px4_msgs cuas_msgs)
+install(TARGETS CUASInterceptorCommandListener DESTINATION lib/${PROJECT_NAME})
 
-# examples/publisher/cuas_msgs_publisher
-add_executable(cuas_msgs_publisher src/examples/publisher/cuas_msgs_publisher.cpp)
-ament_target_dependencies(cuas_msgs_publisher rclcpp px4_msgs cuas_msgs)
-install(TARGETS cuas_msgs_publisher DESTINATION lib/${PROJECT_NAME})
+# examples/publisher/CUASInterceptorReportPublisher
+add_executable(CUASInterceptorReportPublisher src/examples/publisher/CUASInterceptorReportPublisher.cpp)
+ament_target_dependencies(CUASInterceptorReportPublisher rclcpp px4_msgs cuas_msgs)
+install(TARGETS CUASInterceptorReportPublisher DESTINATION lib/${PROJECT_NAME})
 
 # examples/listeners/vehicle_gps_position_listener
 add_executable(vehicle_gps_position_listener src/examples/listeners/vehicle_gps_position_listener.cpp)

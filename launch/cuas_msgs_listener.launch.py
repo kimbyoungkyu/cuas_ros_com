@@ -50,14 +50,14 @@ def generate_launch_description():
     )
     """
 
-    cuas_msgs_listener_node = Node(
+    CUASInterceptorCommandListenerNode = Node(
         package='px4_ros_com',
-        executable='cuas_msgs_listener',
+        executable='CUASInterceptorCommandListener',
         output='screen',
         shell=True,
     )
 
     return LaunchDescription([
         #micro_ros_agent,
-        cuas_msgs_listener_node
+        CUASInterceptorCommandListenerNode
     ])
